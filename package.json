@@ -21,18 +21,12 @@
   ],
   "preferGlobal": true,
   "scripts": {
-    "test": "node ./bin/cake test",
+    "test": "node ./bin/cake test"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/alangpierce/js-cake"
   },
   "devDependencies": {
-    "docco": "~0.7.0",
-    "google-closure-compiler-js": "^20170218.0.0",
-    "highlight.js": "~9.10.0",
-    "jison": ">=0.4.17",
-    "markdown-it": "^8.3.1",
-    "underscore": "~1.8.3"
   }
 }
