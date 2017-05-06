@@ -3,7 +3,7 @@
   "description": "JavaScript fork of CoffeeScript's cake tool.",
   "keywords": [
     "javascript",
-    "coffeescript",
+    "coffeescript"
   ],
   "author": "Alan Pierce",
   "version": "1.0.0",
