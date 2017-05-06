@@ -1,42 +1,31 @@
 {
-  "name": "coffee-script",
-  "description": "Unfancy JavaScript",
+  "name": "js-cake",
+  "description": "JavaScript fork of CoffeeScript's cake tool.",
   "keywords": [
     "javascript",
-    "language",
     "coffeescript",
-    "compiler"
   ],
-  "author": "Jeremy Ashkenas",
-  "version": "1.12.5",
+  "author": "Alan Pierce",
+  "version": "1.0.0",
   "license": "MIT",
   "engines": {
-    "node": ">=0.8.0"
-  },
-  "directories": {
-    "lib": "./lib/coffee-script"
+    "node": ">=4.0.0"
   },
   "main": "./lib/coffee-script/coffee-script",
   "bin": {
-    "coffee": "./bin/coffee",
-    "cake": "./bin/cake"
+    "js-cake": "./bin/js-cake"
   },
   "files": [
     "bin",
-    "lib",
-    "register.js",
-    "repl.js"
+    "dist"
   ],
   "preferGlobal": true,
   "scripts": {
     "test": "node ./bin/cake test",
-    "test-harmony": "node --harmony ./bin/cake test"
   },
-  "homepage": "http://coffeescript.org",
-  "bugs": "https://github.com/jashkenas/coffeescript/issues",
   "repository": {
     "type": "git",
-    "url": "git://github.com/jashkenas/coffeescript.git"
+    "url": "https://github.com/alangpierce/js-cake"
   },
   "devDependencies": {
     "docco": "~0.7.0",
