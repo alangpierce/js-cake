@@ -1,22 +1,24 @@
-fs        = require 'fs'
-path      = require 'path'
-{ spawn } = require 'child_process'
+import fs from 'fs';
+import path from 'path';
+import { spawn } from 'child_process';
 
-spawnNodeProcess = (args, output = 'stderr', callback) ->
-  relayOutput = (buffer) -> console.log buffer.toString()
-  proc =         spawn 'node', args
-  proc.stdout.on 'data', relayOutput if output is 'both' or output is 'stdout'
-  proc.stderr.on 'data', relayOutput if output is 'both' or output is 'stderr'
-  proc.on        'exit', (status) -> callback(status) if typeof callback is 'function'
+let spawnNodeProcess = function(args, output, callback) {
+  if (output == null) { output = 'stderr'; }
+  let relayOutput = buffer => console.log(buffer.toString());
+  let proc =         spawn('node', args);
+  if ((output === 'both') || (output === 'stdout')) { proc.stdout.on('data', relayOutput); }
+  if ((output === 'both') || (output === 'stderr')) { proc.stderr.on('data', relayOutput); }
+  return proc.on('exit', function(status) { if (typeof callback === 'function') { return callback(status); } });
+};
 
-# Run a CoffeeScript through our node/coffee interpreter.
-run = (args, callback) ->
-  spawnNodeProcess ['bin/coffee'].concat(args), 'stderr', (status) ->
-    process.exit(1) if status isnt 0
-    callback() if typeof callback is 'function'
+// Run a CoffeeScript through our node/coffee interpreter.
+let run = (args, callback) =>
+  spawnNodeProcess(['bin/coffee'].concat(args), 'stderr', function(status) {
+    if (status !== 0) { process.exit(1); }
+    if (typeof callback === 'function') { return callback(); }
+  })
+;
 
-task 'build', 'build js-cake', ->
-  console.log 'TODO'
+task('build', 'build js-cake', () => console.log('TODO'));
 
-task 'test', 'run the js-cake tests', ->
-  console.log 'TODO'
+task('test', 'run the js-cake tests', () => console.log('TODO'));
