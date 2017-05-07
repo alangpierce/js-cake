@@ -57,6 +57,7 @@ export default function run() {
   global.__originalDirname = fs.realpathSync('.');
   process.chdir(cakefileDirectory(__originalDirname));
   const args = process.argv.slice(2);
+  require('babel-register');  // eslint-disable-line global-require
   requireUncached(path.resolve('Cakefile'));
   oparse = new OptionParser(switches);
   if (!args.length) { return printTasks(); }

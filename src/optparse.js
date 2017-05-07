@@ -106,7 +106,7 @@ function buildRules(rules) {
     }
     return result;
   })();
-};
+}
 
 // Build a rule from a `-o` short flag, a `--output [DIR]` long flag, and the
 // description of what the option does.
@@ -138,4 +138,4 @@ function normalizeArguments(args) {
     }
   }
   return result;
-};
+}
