@@ -48,7 +48,7 @@ export function merge(options, overrides) {
 
 // Extend a source object with the properties of another object (shallow copy).
 export function extend(object, properties) {
-  for (const key of Object.keys(object)) {
+  for (const key of Object.keys(properties)) {
     const val = properties[key];
     object[key] = val;
   }

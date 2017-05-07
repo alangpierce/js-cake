@@ -10,6 +10,8 @@
 // External dependencies.
 import fs from 'fs';
 import path from 'path';
+import requireUncached from 'require-uncached';
+
 import * as helpers from './helpers';
 import OptionParser from './optparse';
 
@@ -56,8 +58,7 @@ export default function run() {
   global.__originalDirname = fs.realpathSync('.');
   process.chdir(cakefileDirectory(__originalDirname));
   const args = process.argv.slice(2);
-  // TODO: Run the cakefile.
-  // CoffeeScript.run(fs.readFileSync('Cakefile').toString(), { filename: 'Cakefile' });
+  requireUncached(path.resolve('Cakefile'));
   oparse = new OptionParser(switches);
   if (!args.length) { return printTasks(); }
   try {

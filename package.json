@@ -22,7 +22,7 @@
   ],
   "preferGlobal": true,
   "scripts": {
-    "test": "node ./bin/cake test"
+    "test": "node ./bin/js-cake test"
   },
   "repository": {
     "type": "git",
@@ -38,5 +38,8 @@
     "eslint-plugin-import": "^2.2.0",
     "rollup": "^0.41.6",
     "rollup-plugin-babel": "^2.7.1"
+  },
+  "dependencies": {
+    "require-uncached": "^1.0.3"
   }
 }
