@@ -1,3 +1,23 @@
+/* eslint-disable
+    consistent-return,
+    func-names,
+    guard-for-in,
+    import/extensions,
+    import/no-named-as-default-member,
+    import/no-unresolved,
+    import/prefer-default-export,
+    no-console,
+    no-param-reassign,
+    no-restricted-syntax,
+    no-return-assign,
+    no-undef,
+    no-underscore-dangle,
+    no-use-before-define,
+    no-var,
+    vars-on-top,
+*/
+// TODO: This file was created by bulk-decaffeinate.
+// Fix any style issues and re-enable lint.
 // `cake` is a simplified version of [Make](http://www.gnu.org/software/make/)
 // ([Rake](http://rake.rubyforge.org/), [Jake](https://github.com/280north/jake))
 // for CoffeeScript. You define tasks with names and descriptions in a Cakefile,
@@ -17,10 +37,10 @@ import CoffeeScript from './coffee-script';
 CoffeeScript.register();
 
 // Keep track of the list of defined tasks, the accepted options, and so on.
-let tasks     = {};
-let options   = {};
-let switches  = [];
-let oparse    = null;
+const tasks = {};
+let options = {};
+const switches = [];
+let oparse = null;
 
 // Mixin the top-level Cake functions for Cakefiles to use directly.
 helpers.extend(global, {
@@ -29,7 +49,7 @@ helpers.extend(global, {
   // and the function to run as the action itself.
   task(name, description, action) {
     if (!action) { [action, description] = Array.from([description, action]); }
-    return tasks[name] = {name, description, action};
+    return tasks[name] = { name, description, action };
   },
 
   // Define an option that the Cakefile accepts. The parsed options hash,
@@ -43,8 +63,8 @@ helpers.extend(global, {
   invoke(name) {
     if (!tasks[name]) { missingTask(name); }
     return tasks[name].action(options);
-  }
-}
+  },
+},
 );
 
 // Run `cake`. Executes all of the tasks you pass, in order. Note that Node's
@@ -54,8 +74,8 @@ helpers.extend(global, {
 export function run() {
   global.__originalDirname = fs.realpathSync('.');
   process.chdir(cakefileDirectory(__originalDirname));
-  let args = process.argv.slice(2);
-  CoffeeScript.run(fs.readFileSync('Cakefile').toString(), {filename: 'Cakefile'});
+  const args = process.argv.slice(2);
+  CoffeeScript.run(fs.readFileSync('Cakefile').toString(), { filename: 'Cakefile' });
   oparse = new optparse.OptionParser(switches);
   if (!args.length) { return printTasks(); }
   try {
@@ -63,27 +83,27 @@ export function run() {
   } catch (e) {
     return fatalError(`${e}`);
   }
-  return Array.from(options.arguments).map((arg) => invoke(arg));
+  return Array.from(options.arguments).map(arg => invoke(arg));
 }
 
 // Display the list of Cake tasks in a format similar to `rake -T`
-var printTasks = function() {
-  let relative = path.relative || path.resolve;
-  let cakefilePath = path.join(relative(__originalDirname, process.cwd()), 'Cakefile');
+var printTasks = function () {
+  const relative = path.relative || path.resolve;
+  const cakefilePath = path.join(relative(__originalDirname, process.cwd()), 'Cakefile');
   console.log(`${cakefilePath} defines the following tasks:\n`);
-  for (let name in tasks) {
-    let task = tasks[name];
+  for (const name in tasks) {
+    const task = tasks[name];
     let spaces = 20 - name.length;
     spaces = spaces > 0 ? Array(spaces + 1).join(' ') : '';
-    let desc   = task.description ? `# ${task.description}` : '';
+    const desc = task.description ? `# ${task.description}` : '';
     console.log(`cake ${name}${spaces} ${desc}`);
   }
   if (switches.length) { return console.log(oparse.help()); }
 };
 
 // Print an error and exit when attempting to use an invalid task/option.
-var fatalError = function(message) {
-  console.error(message + '\n');
+var fatalError = function (message) {
+  console.error(`${message}\n`);
   console.log('To see a list of all tasks/options, run "cake"');
   return process.exit(1);
 };
@@ -92,9 +112,9 @@ var missingTask = task => fatalError(`No such task: ${task}`);
 
 // When `cake` is invoked, search in the current and all parent directories
 // to find the relevant Cakefile.
-var cakefileDirectory = function(dir) {
+var cakefileDirectory = function (dir) {
   if (fs.existsSync(path.join(dir, 'Cakefile'))) { return dir; }
-  let parent = path.normalize(path.join(dir, '..'));
+  const parent = path.normalize(path.join(dir, '..'));
   if (parent !== dir) { return cakefileDirectory(parent); }
   throw new Error(`Cakefile not found in ${process.cwd()}`);
 };
