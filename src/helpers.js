@@ -1,32 +1,8 @@
-/* eslint-disable
-    camelcase,
-    func-names,
-    guard-for-in,
-    max-len,
-    no-bitwise,
-    no-cond-assign,
-    no-confusing-arrow,
-    no-multi-assign,
-    no-nested-ternary,
-    no-param-reassign,
-    no-plusplus,
-    no-restricted-syntax,
-    no-unused-vars,
-    no-use-before-define,
-    no-var,
-    one-var,
-    prefer-const,
-    vars-on-top,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
 // This file contains the common helper functions that we'd like to share among
 // the **Lexer**, **Rewriter**, and the **Nodes**. Merge objects, flatten
 // arrays, count characters, that sort of thing.
 
 // Peek at the beginning of a given string to see if it matches a sequence.
-let flatten,
-  repeat;
 export function starts(string, literal, start) {
   return literal === string.substr(start, literal.length);
 }
@@ -38,7 +14,7 @@ export function ends(string, literal, back) {
 }
 
 // Repeat a string `n` times.
-const repeat$1 = (repeat = function (str, n) {
+export function repeat(str, n) {
   // Use clever algorithm to have O(log(n)) string concatenation operations.
   let res = '';
   while (n > 0) {
@@ -47,7 +23,7 @@ const repeat$1 = (repeat = function (str, n) {
     str += str;
   }
   return res;
-});
+}
 
 // Trim out all falsy values from an array.
 export function compact(array) {
@@ -71,17 +47,17 @@ export function merge(options, overrides) {
 }
 
 // Extend a source object with the properties of another object (shallow copy).
-var extend = (exports.extend = function (object, properties) {
-  for (const key in properties) {
+export function extend(object, properties) {
+  for (const key of Object.keys(object)) {
     const val = properties[key];
     object[key] = val;
   }
   return object;
-});
+}
 
 // Return a flattened version of an array.
 // Handy for getting a list of `children` from the nodes.
-const flatten$1 = (flatten = function (array) {
+export function flatten(array) {
   let flattened = [];
   for (const element of Array.from(array)) {
     if (Object.prototype.toString.call(element) === '[object Array]') {
@@ -91,7 +67,7 @@ const flatten$1 = (flatten = function (array) {
     }
   }
   return flattened;
-});
+}
 
 // Delete a key from an object, returning the value. Useful when a node is
 // looking for a particular method in an options hash.
@@ -112,13 +88,15 @@ export const some = Array.prototype.some != null ? Array.prototype.some : functi
 // can be compiled "normally".
 export function invertLiterate(code) {
   let maybe_code = true;
-  const lines = Array.from(code.split('\n')).map(line =>
-    maybe_code && /^([ ]{4}|[ ]{0,3}\t)/.test(line) ?
-      line
-    : (maybe_code = /^\s*$/.test(line)) ?
-      line
-    :
-      `# ${line}`);
+  const lines = Array.from(code.split('\n')).map((line) => {
+    if (maybe_code && /^([ ]{4}|[ ]{0,3}\t)/.test(line)) {
+      return line;
+    } else if (maybe_code = /^\s*$/.test(line)) {
+      return line;
+    } else {
+      return `# ${line}`;
+    }
+  });
   return lines.join('\n');
 }
 
@@ -213,11 +191,12 @@ export function updateSyntaxError(error, code, filename) {
   return error;
 }
 
-var syntaxErrorToString = function () {
+function syntaxErrorToString() {
   let colorsEnabled;
   if (!this.code || !this.location) { return Error.prototype.toString.call(this); }
 
-  let { first_line, first_column, last_line, last_column } = this.location;
+  const { first_line, first_column } = this.location;
+  let { last_line, last_column } = this.location;
   if (last_line == null) { last_line = first_line; }
   if (last_column == null) { last_column = first_column; }
 
@@ -230,12 +209,14 @@ var syntaxErrorToString = function () {
 
   // Check to see if we're running on a color-enabled TTY.
   if (typeof process !== 'undefined' && process !== null) {
-    colorsEnabled = (process.stdout != null ? process.stdout.isTTY : undefined) && !(process.env != null ? process.env.NODE_DISABLE_COLORS : undefined);
+    colorsEnabled = (process.stdout != null ? process.stdout.isTTY : undefined) &&
+      !(process.env != null ? process.env.NODE_DISABLE_COLORS : undefined);
   }
 
   if (this.colorful != null ? this.colorful : colorsEnabled) {
     const colorize = str => `\x1B[1;31m${str}\x1B[0m`;
-    codeLine = codeLine.slice(0, start) + colorize(codeLine.slice(start, end)) + codeLine.slice(end);
+    codeLine = codeLine.slice(0, start) + colorize(codeLine.slice(start, end))
+      + codeLine.slice(end);
     marker = colorize(marker);
   }
 
@@ -244,7 +225,7 @@ ${filename}:${first_line + 1}:${first_column + 1}: error: ${this.message}
 ${codeLine}
 ${marker}\
 `;
-};
+}
 
 export function nameWhitespaceCharacter(string) {
   switch (string) {
