@@ -1,24 +1,10 @@
-/* eslint-disable
-    func-names,
-    import/first,
-    import/prefer-default-export,
-    no-cond-assign,
-    no-continue,
-    no-multi-assign,
-    no-param-reassign,
-    no-plusplus,
-    no-restricted-syntax,
-    no-shadow,
-    no-unused-vars,
-    no-use-before-define,
-    no-useless-escape,
-    no-var,
-    vars-on-top,
-*/
-// TODO: This file was created by bulk-decaffeinate.
-// Fix any style issues and re-enable lint.
-let OptionParser;
 import { repeat } from './helpers';
+
+// Regex matchers for option flags.
+const LONG_FLAG = /^(--\w[\w-]*)/;
+const SHORT_FLAG = /^(-\w)$/;
+const MULTI_FLAG = /^-(\w{2,})/;
+const OPTIONAL = /\[(\w+(\*?))\]/;
 
 // A simple **OptionParser** class to parse option flags from the command-line.
 // Use it like so:
@@ -28,7 +14,7 @@ import { repeat } from './helpers';
 //
 // The first non-option is considered to be the start of the file (and file
 // option) list, and all subsequent arguments are left unparsed.
-const OptionParser$1 = (OptionParser = class OptionParser {
+export default class OptionParser {
 
   // Initialize with a list of valid options, in the form:
   //
@@ -102,34 +88,29 @@ const OptionParser$1 = (OptionParser = class OptionParser {
     }
     return `\n${lines.join('\n')}\n`;
   }
-});
+}
 
 // Helpers
 // -------
 
-// Regex matchers for option flags.
-export default OptionParser$1;
-var LONG_FLAG = /^(--\w[\w\-]*)/;
-var SHORT_FLAG = /^(-\w)$/;
-const MULTI_FLAG = /^-(\w{2,})/;
-const OPTIONAL = /\[(\w+(\*?))\]/;
-
 // Build and return the list of option rules. If the optional *short-flag* is
 // unspecified, leave it out by padding with `null`.
-var buildRules = rules =>
-  (() => {
+function buildRules(rules) {
+  return (() => {
     const result = [];
     for (const tuple of Array.from(rules)) {
-      if (tuple.length < 3) { tuple.unshift(null); }
+      if (tuple.length < 3) {
+        tuple.unshift(null);
+      }
       result.push(buildRule(...Array.from(tuple || [])));
     }
     return result;
-  })()
-;
+  })();
+};
 
 // Build a rule from a `-o` short flag, a `--output [DIR]` long flag, and the
 // description of what the option does.
-var buildRule = function (shortFlag, longFlag, description, options) {
+function buildRule(shortFlag, longFlag, description, options) {
   if (options == null) { options = {}; }
   const match = longFlag.match(OPTIONAL);
   longFlag = longFlag.match(LONG_FLAG)[1];
@@ -141,15 +122,15 @@ var buildRule = function (shortFlag, longFlag, description, options) {
     hasArgument: !!(match && match[1]),
     isList: !!(match && match[2]),
   };
-};
+}
 
 // Normalize arguments by expanding merged flags into multiple flags. This allows
 // you to have `-wl` be the same as `--watch --lint`.
-var normalizeArguments = function (args) {
+function normalizeArguments(args) {
   args = args.slice();
   const result = [];
   for (const arg of Array.from(args)) {
-    var match;
+    let match;
     if ((match = arg.match(MULTI_FLAG))) {
       for (const l of Array.from(match[1].split(''))) { result.push(`-${l}`); }
     } else {
