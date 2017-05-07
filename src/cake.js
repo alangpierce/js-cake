@@ -47,8 +47,7 @@ helpers.extend(global, {
     }
     tasks[name].action(options);
   },
-},
-);
+});
 
 // Run `cake`. Executes all of the tasks you pass, in order. Note that Node's
 // asynchrony may cause tasks to execute in a different order than you'd expect.
