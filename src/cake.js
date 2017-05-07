@@ -72,7 +72,7 @@ export default function run() {
 // Display the list of Cake tasks in a format similar to `rake -T`
 function printTasks() {
   const relative = path.relative || path.resolve;
-  const cakefilePath = path.join(relative(__originalDirname, process.cwd()), 'Cakefile');
+  const cakefilePath = path.join(relative(__originalDirname, process.cwd()), 'Cakefile.js');
   console.log(`${cakefilePath} defines the following tasks:\n`);
   for (const name of Object.keys(tasks)) {
     const task = tasks[name];
@@ -100,7 +100,7 @@ function missingTask(task) {
 // When `cake` is invoked, search in the current and all parent directories
 // to find the relevant Cakefile.
 function cakefileDirectory(dir) {
-  if (fs.existsSync(path.join(dir, 'Cakefile'))) { return dir; }
+  if (fs.existsSync(path.join(dir, 'Cakefile.js'))) { return dir; }
   const parent = path.normalize(path.join(dir, '..'));
   if (parent !== dir) { return cakefileDirectory(parent); }
   throw new Error(`Cakefile not found in ${process.cwd()}`);
