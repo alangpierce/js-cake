@@ -15,6 +15,7 @@ task('build', 'build js-cake', () => {
   run('./node_modules/.bin/rollup -c');
 });
 
-task('test', 'run the js-cake tests', () => {
-  console.log('TODO');
+task('publish', 'publish js-cake', () => {
+  invoke('build');
+  run('npm publish');
 });
