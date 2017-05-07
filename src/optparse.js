@@ -108,7 +108,7 @@ const OptionParser$1 = (OptionParser = class OptionParser {
 // -------
 
 // Regex matchers for option flags.
-export { OptionParser$1 as OptionParser };
+export default OptionParser$1;
 var LONG_FLAG = /^(--\w[\w\-]*)/;
 var SHORT_FLAG = /^(-\w)$/;
 const MULTI_FLAG = /^-(\w{2,})/;
