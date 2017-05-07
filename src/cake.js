@@ -10,7 +10,7 @@
 // External dependencies.
 import fs from 'fs';
 import path from 'path';
-import helpers from './helpers';
+import * as helpers from './helpers';
 import OptionParser from './optparse';
 
 // Keep track of the list of defined tasks, the accepted options, and so on.
